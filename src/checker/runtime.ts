@@ -167,7 +167,9 @@ function createChecker(receive: (cb: (msg: Req) => void) => void, send: (msg: Re
 
     class Host implements ts.LanguageServiceHost {
         filesRegex: RegExp;
-        getCustomTransformers = loaderConfig.getCustomTransformers;
+        getCustomTransformers = () => loaderConfig.getCustomTransformers
+            ? loaderConfig.getCustomTransformers(service.getProgram())
+            : undefined;
 
         constructor(filesRegex: RegExp) {
             this.filesRegex = filesRegex;
